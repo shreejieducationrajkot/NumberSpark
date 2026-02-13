@@ -42,18 +42,20 @@ export const AdditionSubtractionModule: React.FC<AdditionSubtractionModuleProps>
         const newOp = isAddition ? '+' : '-';
         setOperator(newOp);
 
-        let a, b, answer;
+        let a = 0;
+        let b = 0;
+        let calculatedAnswer = 0;
 
         if (isAddition) {
             // Ensure sum <= max
-            answer = Math.floor(Math.random() * (max - 2)) + 2; // min 2
-            a = Math.floor(Math.random() * (answer - 1)) + 1;
-            b = answer - a;
+            calculatedAnswer = Math.floor(Math.random() * (max - 2)) + 2; // min 2
+            a = Math.floor(Math.random() * (calculatedAnswer - 1)) + 1;
+            b = calculatedAnswer - a;
         } else {
             // Ensure result >= 0
             a = Math.floor(Math.random() * (max - 1)) + 1;
             b = Math.floor(Math.random() * a); // b < a or b <= a
-            answer = a - b;
+            calculatedAnswer = a - b;
         }
 
         setNumA(a);
@@ -62,14 +64,15 @@ export const AdditionSubtractionModule: React.FC<AdditionSubtractionModuleProps>
 
         // Generate options
         const opts = new Set<number>();
-        opts.add(answer);
+        opts.add(calculatedAnswer);
         
         while (opts.size < 3) {
             const offset = Math.floor(Math.random() * 5) + 1;
             const sign = Math.random() > 0.5 ? 1 : -1;
-            const distractor = answer + (offset * sign);
-            if (distractor >= 0 && distractor <= max * 1.5 && distractor !== answer) {
-                opts.add(distractor);
+            const candidate = calculatedAnswer + (offset * sign);
+            
+            if (candidate >= 0 && candidate <= max * 1.5 && candidate !== calculatedAnswer) {
+                opts.add(candidate);
             }
         }
 
