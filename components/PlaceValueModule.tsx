@@ -88,12 +88,12 @@ export const PlaceValueModule: React.FC<PlaceValueModuleProps> = ({ setFeedback 
 
       {showTutorial && <TutorialOverlay steps={tutorialSteps} onComplete={handleTutorialComplete} />}
 
-      <div className="w-full max-w-4xl mx-auto p-4 flex flex-col lg:flex-row gap-8 items-start">
+      <div className="w-full max-w-5xl mx-auto p-4 flex flex-col lg:flex-row gap-6 items-stretch">
           {/* Workspace */}
-          <div className="flex-1 bg-white rounded-3xl shadow-xl p-6 w-full">
+          <div className="flex-1 bg-white rounded-3xl shadow-xl p-4 md:p-6 w-full flex flex-col">
               <div className="flex justify-between items-center mb-6 border-b pb-4">
                   <div className="flex items-center gap-4">
-                    <h2 id="pv-target" className="text-3xl font-bold text-gray-700 p-2 rounded-xl">Target: <span className="text-purple-600 text-5xl ml-2">{targetNumber}</span></h2>
+                    <h2 id="pv-target" className="text-2xl md:text-3xl font-bold text-gray-700 p-2 rounded-xl">Target: <span className="text-purple-600 text-4xl md:text-5xl ml-2">{targetNumber}</span></h2>
                     <button 
                         onClick={() => setShowTutorial(true)}
                         className="text-purple-300 hover:text-purple-500 transition"
@@ -110,13 +110,13 @@ export const PlaceValueModule: React.FC<PlaceValueModuleProps> = ({ setFeedback 
                   </button>
               </div>
 
-              <div className="flex gap-4 min-h-[400px]">
+              <div className="flex gap-2 md:gap-4 flex-grow min-h-[300px]">
                   {/* Tens Column */}
-                  <div className="flex-1 bg-blue-50 rounded-2xl border-2 border-blue-200 p-4 flex flex-col items-center gap-2 relative">
-                      <div className="text-blue-500 font-bold uppercase tracking-wider mb-2">Tens</div>
-                      <div className="absolute top-4 right-4 text-4xl font-black text-blue-200">{tensCount}</div>
+                  <div className="flex-1 bg-blue-50 rounded-2xl border-2 border-blue-200 p-2 md:p-4 flex flex-col items-center gap-2 relative">
+                      <div className="text-blue-500 font-bold uppercase tracking-wider mb-2 text-sm md:text-base">Tens</div>
+                      <div className="absolute top-2 right-2 md:top-4 md:right-4 text-2xl md:text-4xl font-black text-blue-200 select-none">{tensCount}</div>
                       
-                      <div className="flex flex-wrap justify-center gap-2 content-start w-full h-full">
+                      <div className="flex flex-wrap justify-center gap-1 md:gap-2 content-start w-full h-full overflow-y-auto max-h-[500px]">
                           <AnimatePresence>
                           {Array.from({length: tensCount}).map((_, i) => (
                               <motion.div
@@ -125,7 +125,7 @@ export const PlaceValueModule: React.FC<PlaceValueModuleProps> = ({ setFeedback 
                                   animate={{ scale: 1, y: 0 }}
                                   exit={{ scale: 0 }}
                                   onClick={() => !isCorrect && setTensCount(c => c - 1)}
-                                  className="w-8 h-40 bg-blue-500 rounded-md shadow-md cursor-pointer border-b-4 border-blue-700 hover:bg-blue-400 flex flex-col justify-between py-1"
+                                  className="w-6 md:w-8 h-32 md:h-40 bg-blue-500 rounded-md shadow-md cursor-pointer border-b-4 border-blue-700 hover:bg-blue-400 flex flex-col justify-between py-1"
                               >
                                   {Array.from({length: 10}).map((__, k) => (
                                       <div key={k} className="w-full h-[10%] border-t border-blue-400/50"></div>
@@ -137,11 +137,11 @@ export const PlaceValueModule: React.FC<PlaceValueModuleProps> = ({ setFeedback 
                   </div>
 
                   {/* Ones Column */}
-                  <div className="flex-1 bg-green-50 rounded-2xl border-2 border-green-200 p-4 flex flex-col items-center gap-2 relative">
-                      <div className="text-green-500 font-bold uppercase tracking-wider mb-2">Ones</div>
-                      <div className="absolute top-4 right-4 text-4xl font-black text-green-200">{onesCount}</div>
+                  <div className="flex-1 bg-green-50 rounded-2xl border-2 border-green-200 p-2 md:p-4 flex flex-col items-center gap-2 relative">
+                      <div className="text-green-500 font-bold uppercase tracking-wider mb-2 text-sm md:text-base">Ones</div>
+                      <div className="absolute top-2 right-2 md:top-4 md:right-4 text-2xl md:text-4xl font-black text-green-200 select-none">{onesCount}</div>
 
-                      <div className="flex flex-wrap justify-center gap-2 content-start w-full h-full">
+                      <div className="flex flex-wrap justify-center gap-1 md:gap-2 content-start w-full h-full overflow-y-auto max-h-[500px]">
                           <AnimatePresence>
                           {Array.from({length: onesCount}).map((_, i) => (
                               <motion.div
@@ -150,7 +150,7 @@ export const PlaceValueModule: React.FC<PlaceValueModuleProps> = ({ setFeedback 
                                   animate={{ scale: 1, y: 0 }}
                                   exit={{ scale: 0 }}
                                   onClick={() => !isCorrect && setOnesCount(c => c - 1)}
-                                  className="w-8 h-8 bg-green-500 rounded-md shadow-md cursor-pointer border-b-4 border-green-700 hover:bg-green-400"
+                                  className="w-6 h-6 md:w-8 md:h-8 bg-green-500 rounded-md shadow-md cursor-pointer border-b-4 border-green-700 hover:bg-green-400"
                               />
                           ))}
                           </AnimatePresence>
@@ -181,20 +181,20 @@ export const PlaceValueModule: React.FC<PlaceValueModuleProps> = ({ setFeedback 
                   id="pv-add-ten"
                   onClick={() => !isCorrect && !showTutorial && setTensCount(c => c < 9 ? c + 1 : c)}
                   disabled={isCorrect}
-                  className="flex-1 lg:flex-none w-full aspect-[2/3] lg:aspect-auto lg:h-48 bg-blue-100 rounded-xl border-2 border-blue-300 flex flex-col items-center justify-center gap-2 hover:bg-blue-200 transition group disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 lg:flex-none w-full h-24 lg:h-48 bg-blue-100 rounded-xl border-2 border-blue-300 flex flex-col items-center justify-center gap-2 hover:bg-blue-200 transition group disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 touch-manipulation"
               >
-                  <div className="w-6 h-28 bg-blue-500 rounded shadow-sm border-b-2 border-blue-700 group-hover:scale-110 transition"></div>
-                  <span className="font-bold text-blue-700 text-sm">Add Ten</span>
+                  <div className="w-4 h-12 lg:w-6 lg:h-28 bg-blue-500 rounded shadow-sm border-b-2 border-blue-700 group-hover:scale-110 transition"></div>
+                  <span className="font-bold text-blue-700 text-xs lg:text-sm">Add Ten</span>
               </button>
 
               <button 
                   id="pv-add-one"
                   onClick={() => !isCorrect && !showTutorial && setOnesCount(c => c < 19 ? c + 1 : c)}
                   disabled={isCorrect}
-                  className="flex-1 lg:flex-none w-full aspect-[2/3] lg:aspect-auto lg:h-32 bg-green-100 rounded-xl border-2 border-green-300 flex flex-col items-center justify-center gap-2 hover:bg-green-200 transition group disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 lg:flex-none w-full h-24 lg:h-32 bg-green-100 rounded-xl border-2 border-green-300 flex flex-col items-center justify-center gap-2 hover:bg-green-200 transition group disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 touch-manipulation"
               >
-                  <div className="w-8 h-8 bg-green-500 rounded shadow-sm border-b-2 border-green-700 group-hover:scale-110 transition"></div>
-                  <span className="font-bold text-green-700 text-sm">Add One</span>
+                  <div className="w-6 h-6 lg:w-8 lg:h-8 bg-green-500 rounded shadow-sm border-b-2 border-green-700 group-hover:scale-110 transition"></div>
+                  <span className="font-bold text-green-700 text-xs lg:text-sm">Add One</span>
               </button>
           </div>
       </div>

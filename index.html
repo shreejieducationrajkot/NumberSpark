@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>NumberSpark - 1st Grade Math</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -10,10 +10,14 @@
       body {
         font-family: 'Fredoka', sans-serif;
         background-color: #f0f9ff;
+        overscroll-behavior-y: none; /* Prevent pull-to-refresh on mobile */
+        touch-action: pan-x pan-y;
+        -webkit-tap-highlight-color: transparent;
       }
       /* Custom scrollbar for kid-friendly feel */
       ::-webkit-scrollbar {
         width: 12px;
+        height: 12px;
       }
       ::-webkit-scrollbar-track {
         background: #e0f2fe;
@@ -22,6 +26,17 @@
         background-color: #38bdf8;
         border-radius: 20px;
         border: 3px solid #e0f2fe;
+      }
+      
+      /* Disable text selection for game elements */
+      .select-none {
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      
+      /* Input fixes for iOS */
+      input[type="text"], input[type="number"] {
+        font-size: 16px; /* Prevents auto-zoom on iOS */
       }
     </style>
   <script type="importmap">

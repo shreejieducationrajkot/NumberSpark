@@ -134,6 +134,14 @@ export const CountingModule: React.FC<CountingModuleProps> = ({ onSuccess, setFe
     }
   ];
 
+  // Grid styling calculation
+  const getGridCols = () => {
+    if (gridSize <= 20) return 'grid-cols-5';
+    // For 100 grid, use 10 cols, but on small screens we might need to scroll or scale?
+    // Tailwind 'grid-cols-10' works.
+    return 'grid-cols-10';
+  };
+
   return (
     <>
       {showIntro && (
@@ -155,10 +163,10 @@ export const CountingModule: React.FC<CountingModuleProps> = ({ onSuccess, setFe
         <TutorialOverlay steps={tutorialSteps} onComplete={handleTutorialComplete} />
       )}
 
-      <div className="w-full max-w-4xl mx-auto p-4 flex flex-col items-center">
-        <div className="flex justify-between w-full mb-6 items-center bg-white p-4 rounded-xl shadow-sm">
+      <div className="w-full max-w-5xl mx-auto p-4 flex flex-col items-center">
+        <div className="flex flex-col md:flex-row justify-between w-full mb-6 items-center bg-white p-4 rounded-xl shadow-sm gap-4">
           <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold text-blue-600 flex items-center gap-2">
+            <h2 className="text-xl md:text-2xl font-bold text-blue-600 flex items-center gap-2">
                 <Trophy className="text-yellow-500" />
                 Level {level}
                 <span className="text-sm font-normal text-gray-400 ml-2 border border-gray-200 rounded px-2 bg-gray-50">{difficulty}</span>
@@ -171,61 +179,68 @@ export const CountingModule: React.FC<CountingModuleProps> = ({ onSuccess, setFe
                 <HelpCircle size={24} />
             </button>
           </div>
-          <div className="text-xl font-bold text-green-600">Score: {score}</div>
-          <button 
-              onClick={startNewGame}
-              className="p-2 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition"
-          >
-              <RefreshCw size={20} />
-          </button>
+          <div className="flex items-center gap-4">
+             <div className="text-xl font-bold text-green-600">Score: {score}</div>
+             <button 
+                onClick={startNewGame}
+                className="p-2 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition"
+            >
+                <RefreshCw size={20} />
+            </button>
+          </div>
         </div>
 
-        <div 
-          id="counting-grid"
-          className={`
-          grid gap-2 mb-8 bg-blue-50 p-6 rounded-3xl shadow-inner border-4 border-blue-100
-          ${gridSize <= 20 ? 'grid-cols-5 max-w-lg' : 'grid-cols-10'}
-        `}>
-          {Array.from({ length: gridSize }, (_, i) => i + 1).map((num, i) => {
-            const isMissing = missingNumbers.includes(num);
-            const inputVal = parseInt(userInputs[num] || '0', 10);
-            const isCorrect = isMissing && inputVal === num;
-            const isWrong = hasChecked && isMissing && !isCorrect;
-            
-            return (
-              <motion.div
-                key={num}
-                id={isMissing ? `input-${num}` : undefined}
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: i * 0.005 }}
-                className={`
-                  aspect-square flex items-center justify-center rounded-lg text-lg font-bold relative
-                  ${!isMissing ? 'bg-white text-blue-500 shadow-sm' : ''}
-                  ${isMissing && isCorrect ? 'bg-green-400 text-white shadow-md transform scale-105 z-10' : ''}
-                  ${isMissing && !isCorrect && !isWrong ? 'bg-yellow-100' : ''}
-                  ${isWrong ? 'bg-red-100 border-2 border-red-400 shake' : ''}
-                `}
-              >
-                {!isMissing ? (
-                  num
-                ) : (
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    className={`w-full h-full bg-transparent text-center focus:outline-none rounded-lg p-0
-                      ${isCorrect ? 'text-white font-black' : 'text-blue-800'}
-                      ${isWrong ? 'text-red-600' : ''}
+        <div className="w-full overflow-x-auto pb-4 px-2 flex justify-center">
+            <div 
+            id="counting-grid"
+            className={`
+            grid gap-1 md:gap-2 mb-8 bg-blue-50 p-3 md:p-6 rounded-3xl shadow-inner border-4 border-blue-100 min-w-[300px]
+            ${getGridCols()}
+            ${gridSize <= 20 ? 'max-w-md w-full' : 'max-w-3xl w-full'}
+            `}
+            >
+            {Array.from({ length: gridSize }, (_, i) => i + 1).map((num, i) => {
+                const isMissing = missingNumbers.includes(num);
+                const inputVal = parseInt(userInputs[num] || '0', 10);
+                const isCorrect = isMissing && inputVal === num;
+                const isWrong = hasChecked && isMissing && !isCorrect;
+                
+                return (
+                <motion.div
+                    key={num}
+                    id={isMissing ? `input-${num}` : undefined}
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: i * 0.005 }}
+                    className={`
+                    aspect-square flex items-center justify-center rounded-lg text-base md:text-xl font-bold relative
+                    ${!isMissing ? 'bg-white text-blue-500 shadow-sm' : ''}
+                    ${isMissing && isCorrect ? 'bg-green-400 text-white shadow-md transform scale-105 z-10' : ''}
+                    ${isMissing && !isCorrect && !isWrong ? 'bg-yellow-100 ring-2 ring-yellow-200' : ''}
+                    ${isWrong ? 'bg-red-100 ring-2 ring-red-400 shake' : ''}
                     `}
-                    value={userInputs[num] || ''}
-                    onChange={(e) => handleInputChange(num, e.target.value)}
-                    disabled={isCorrect || isLevelComplete}
-                    autoComplete="off"
-                  />
-                )}
-              </motion.div>
-            );
-          })}
+                >
+                    {!isMissing ? (
+                    <span className="select-none">{num}</span>
+                    ) : (
+                    <input
+                        type="tel" 
+                        pattern="[0-9]*"
+                        className={`w-full h-full bg-transparent text-center focus:outline-none rounded-lg p-0
+                        ${isCorrect ? 'text-white font-black' : 'text-blue-800'}
+                        ${isWrong ? 'text-red-600' : ''}
+                        font-bold
+                        `}
+                        value={userInputs[num] || ''}
+                        onChange={(e) => handleInputChange(num, e.target.value)}
+                        disabled={isCorrect || isLevelComplete}
+                        autoComplete="off"
+                    />
+                    )}
+                </motion.div>
+                );
+            })}
+            </div>
         </div>
 
         <motion.button

@@ -116,11 +116,11 @@ const AnimatedAlligatorIcon = ({ direction, isEating }: { direction: 'left' | 'r
 const FishPond = ({ count, side }: { count: number, side: 'left' | 'right' }) => {
     const displayCount = Math.min(count, 20);
     return (
-        <div className="relative w-full h-48 bg-sky-100 rounded-3xl border-4 border-sky-200 overflow-hidden shadow-inner">
+        <div className="relative w-full h-40 md:h-48 bg-sky-100 rounded-3xl border-4 border-sky-200 overflow-hidden shadow-inner">
              {/* Water Surface Animation */}
              <div className="absolute inset-0 opacity-30 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-200 via-sky-300 to-sky-400 animate-pulse"></div>
              
-             <div className="relative z-10 w-full h-full p-4 flex flex-wrap content-center justify-center gap-2">
+             <div className="relative z-10 w-full h-full p-2 md:p-4 flex flex-wrap content-center justify-center gap-1 md:gap-2">
                 <AnimatePresence>
                 {Array.from({length: displayCount}).map((_, i) => (
                     <motion.div
@@ -139,7 +139,7 @@ const FishPond = ({ count, side }: { count: number, side: 'left' | 'right' }) =>
                         }}
                     >
                         <Fish 
-                            size={Math.max(20, 40 - displayCount)} 
+                            size={Math.max(16, 32 - displayCount)} 
                             className={`text-orange-500 fill-orange-300 drop-shadow-sm ${side === 'right' ? 'transform scale-x-[-1]' : ''}`} 
                             strokeWidth={2.5}
                         />
@@ -251,11 +251,11 @@ export const ComparingModule: React.FC<ComparingModuleProps> = ({ setFeedback, d
             <div className="w-full max-w-5xl mx-auto p-4 flex flex-col items-center">
                 {/* Header */}
                 <div className="flex items-center justify-between w-full max-w-3xl mb-8 bg-white p-3 rounded-2xl shadow-sm">
-                    <div className="flex items-center gap-2 bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-bold">
+                    <div className="flex items-center gap-2 bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-bold shadow-sm">
                         <Sparkles size={18} /> Streak: {streak}
                     </div>
-                    <div className="text-sm font-bold text-gray-400 px-4">
-                        {difficulty} Level
+                    <div className="text-xs font-bold text-gray-400 border border-gray-200 px-2 py-1 rounded bg-white">
+                        {difficulty}
                     </div>
                     <button 
                         onClick={() => setShowTutorial(true)}
@@ -266,18 +266,18 @@ export const ComparingModule: React.FC<ComparingModuleProps> = ({ setFeedback, d
                     </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full items-center relative">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full items-center relative">
                     
                     {/* Left Pond */}
                     <div id="pond-left" className="flex flex-col items-center order-1 z-0">
-                        <div className="text-6xl font-black text-sky-600 bg-white w-24 h-24 rounded-full shadow-lg flex items-center justify-center border-4 border-sky-100 mb-4 z-10 relative">
+                        <div className="text-4xl md:text-6xl font-black text-sky-600 bg-white w-20 h-20 md:w-24 md:h-24 rounded-full shadow-lg flex items-center justify-center border-4 border-sky-100 mb-4 z-10 relative">
                             {numA}
                         </div>
                         <FishPond count={numA} side="left" />
                     </div>
 
                     {/* Controls (Alligator) */}
-                    <div id="alligator-controls" className="flex flex-row md:flex-col items-center justify-center gap-4 order-3 md:order-2 my-6 md:my-0 z-20">
+                    <div id="alligator-controls" className="flex flex-row md:flex-col items-center justify-center gap-3 md:gap-4 order-3 md:order-2 my-6 md:my-0 z-20">
                         {/* Eats Left (>) */}
                         <motion.button
                             whileHover={{ scale: 1.1 }}
@@ -285,10 +285,10 @@ export const ComparingModule: React.FC<ComparingModuleProps> = ({ setFeedback, d
                             animate={eatingDirection === '>' ? { x: -180, scale: 1.5, zIndex: 50 } : (eatingDirection ? { opacity: 0 } : { x: 0, opacity: 1 })}
                             transition={eatingDirection === '>' ? { duration: 1.5, ease: "easeInOut" } : {}}
                             onClick={() => handleChoice('>')}
-                            className="w-24 h-24 bg-white rounded-3xl shadow-xl flex items-center justify-center border-b-8 border-green-600 hover:border-green-500 transition-colors group overflow-visible"
+                            className="w-20 h-20 md:w-24 md:h-24 bg-white rounded-3xl shadow-xl flex items-center justify-center border-b-8 border-green-600 hover:border-green-500 transition-colors group overflow-visible touch-manipulation"
                             aria-label="Greater Than (Eats Left)"
                         >
-                           <div className="w-20 h-20">
+                           <div className="w-16 h-16 md:w-20 md:h-20">
                              <AnimatedAlligatorIcon direction="left" isEating={eatingDirection === '>'} />
                            </div>
                         </motion.button>
@@ -300,10 +300,10 @@ export const ComparingModule: React.FC<ComparingModuleProps> = ({ setFeedback, d
                             animate={eatingDirection === '=' ? { scale: [1, 1.3, 1], rotate: [0, 10, -10, 0] } : (eatingDirection ? { opacity: 0 } : { opacity: 1 })}
                             transition={eatingDirection === '=' ? { duration: 1 } : {}}
                             onClick={() => handleChoice('=')}
-                            className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center border-b-8 border-green-600 hover:border-green-500 transition-colors group overflow-visible"
+                            className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center border-b-8 border-green-600 hover:border-green-500 transition-colors group overflow-visible touch-manipulation"
                             aria-label="Equal"
                         >
-                            <div className="w-16 h-16">
+                            <div className="w-12 h-12 md:w-16 md:h-16">
                              <AnimatedAlligatorIcon direction="equal" isEating={eatingDirection === '='} />
                            </div>
                         </motion.button>
@@ -315,10 +315,10 @@ export const ComparingModule: React.FC<ComparingModuleProps> = ({ setFeedback, d
                             animate={eatingDirection === '<' ? { x: 180, scale: 1.5, zIndex: 50 } : (eatingDirection ? { opacity: 0 } : { x: 0, opacity: 1 })}
                             transition={eatingDirection === '<' ? { duration: 1.5, ease: "easeInOut" } : {}}
                             onClick={() => handleChoice('<')}
-                            className="w-24 h-24 bg-white rounded-3xl shadow-xl flex items-center justify-center border-b-8 border-green-600 hover:border-green-500 transition-colors group overflow-visible"
+                            className="w-20 h-20 md:w-24 md:h-24 bg-white rounded-3xl shadow-xl flex items-center justify-center border-b-8 border-green-600 hover:border-green-500 transition-colors group overflow-visible touch-manipulation"
                             aria-label="Less Than (Eats Right)"
                         >
-                            <div className="w-20 h-20">
+                            <div className="w-16 h-16 md:w-20 md:h-20">
                              <AnimatedAlligatorIcon direction="right" isEating={eatingDirection === '<'} />
                            </div>
                         </motion.button>
@@ -326,14 +326,14 @@ export const ComparingModule: React.FC<ComparingModuleProps> = ({ setFeedback, d
 
                     {/* Right Pond */}
                     <div id="pond-right" className="flex flex-col items-center order-2 md:order-3 z-0">
-                         <div className="text-6xl font-black text-sky-600 bg-white w-24 h-24 rounded-full shadow-lg flex items-center justify-center border-4 border-sky-100 mb-4 z-10 relative">
+                         <div className="text-4xl md:text-6xl font-black text-sky-600 bg-white w-20 h-20 md:w-24 md:h-24 rounded-full shadow-lg flex items-center justify-center border-4 border-sky-100 mb-4 z-10 relative">
                             {numB}
                         </div>
                         <FishPond count={numB} side="right" />
                     </div>
                 </div>
                 
-                <div className="mt-12 max-w-md text-center text-gray-500 font-medium">
+                <div className="mt-8 md:mt-12 max-w-md text-center text-gray-500 font-medium text-sm md:text-base">
                     <p>Remember: The alligator is hungry for <strong>MORE</strong> fish!</p>
                 </div>
             </div>

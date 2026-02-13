@@ -175,7 +175,7 @@ export const AdditionSubtractionModule: React.FC<AdditionSubtractionModuleProps>
             {showTutorial && <TutorialOverlay steps={tutorialSteps} onComplete={handleTutorialComplete} />}
 
             <div className="w-full max-w-4xl mx-auto p-4 flex flex-col items-center">
-                <div className="flex items-center gap-4 mb-8">
+                <div className="flex items-center gap-4 mb-6 md:mb-8">
                     <div className="flex items-center gap-2 bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-bold shadow-sm">
                         <Sparkles size={18} /> Streak: {streak}
                     </div>
@@ -191,17 +191,17 @@ export const AdditionSubtractionModule: React.FC<AdditionSubtractionModuleProps>
                     </button>
                 </div>
 
-                <div className="bg-white p-6 md:p-8 rounded-3xl shadow-xl border-4 border-blue-50 w-full max-w-2xl flex flex-col items-center">
+                <div className="bg-white p-4 md:p-8 rounded-3xl shadow-xl border-4 border-blue-50 w-full max-w-2xl flex flex-col items-center">
                     
                     {/* Equation Display */}
                     {/* Grouped flex-wrap to keep A+B together and =? together */}
-                    <div id="math-problem" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-6 mb-8 md:mb-12 w-full">
+                    <div id="math-problem" className="flex flex-wrap items-center justify-center gap-x-2 md:gap-x-4 gap-y-6 mb-8 md:mb-12 w-full">
                         
                         {/* First Group: Operand A, Operator, Operand B */}
-                        <div className="flex items-center gap-2 md:gap-4">
+                        <div className="flex items-center gap-1 md:gap-4">
                             {/* Num A */}
                             <div className="flex flex-col items-center">
-                                <div className="w-20 h-20 md:w-32 md:h-32 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-4xl md:text-6xl font-black shadow-inner">
+                                <div className="w-16 h-16 md:w-32 md:h-32 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl md:text-6xl font-black shadow-inner">
                                     {numA}
                                 </div>
                                 {renderDots(numA, 'bg-blue-400')}
@@ -209,12 +209,12 @@ export const AdditionSubtractionModule: React.FC<AdditionSubtractionModuleProps>
 
                             {/* Operator */}
                             <div className="text-gray-400">
-                                {operator === '+' ? <Plus size={32} strokeWidth={4} className="md:w-12 md:h-12" /> : <Minus size={32} strokeWidth={4} className="md:w-12 md:h-12" />}
+                                {operator === '+' ? <Plus size={24} strokeWidth={4} className="md:w-12 md:h-12" /> : <Minus size={24} strokeWidth={4} className="md:w-12 md:h-12" />}
                             </div>
 
                             {/* Num B */}
                             <div className="flex flex-col items-center">
-                                <div className="w-20 h-20 md:w-32 md:h-32 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-4xl md:text-6xl font-black shadow-inner">
+                                <div className="w-16 h-16 md:w-32 md:h-32 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-3xl md:text-6xl font-black shadow-inner">
                                     {numB}
                                 </div>
                                 {renderDots(numB, 'bg-purple-400')}
@@ -224,14 +224,14 @@ export const AdditionSubtractionModule: React.FC<AdditionSubtractionModuleProps>
                         {/* Second Group: Equals and Answer Box */}
                         <div className="flex items-center gap-2 md:gap-4">
                             <div className="text-gray-400">
-                                <span className="text-4xl md:text-6xl font-black">=</span>
+                                <span className="text-3xl md:text-6xl font-black">=</span>
                             </div>
 
                             <div 
                                 ref={dropZoneRef}
                                 className={`
-                                    w-20 h-20 md:w-32 md:h-32 rounded-2xl border-4 border-dashed 
-                                    flex items-center justify-center text-4xl md:text-6xl transition-colors duration-300
+                                    w-16 h-16 md:w-32 md:h-32 rounded-2xl border-4 border-dashed 
+                                    flex items-center justify-center text-3xl md:text-6xl transition-colors duration-300
                                     ${solvedNumber !== null ? 'bg-green-100 border-green-400 text-green-600' : 'bg-gray-100 border-gray-300 text-gray-400'}
                                 `}
                             >
@@ -242,7 +242,7 @@ export const AdditionSubtractionModule: React.FC<AdditionSubtractionModuleProps>
                     </div>
 
                     {/* Options */}
-                    <div id="math-options" className="grid grid-cols-3 gap-4 w-full h-24 md:h-32">
+                    <div id="math-options" className="grid grid-cols-3 gap-3 md:gap-4 w-full h-20 md:h-32">
                         <AnimatePresence mode='popLayout'>
                         {options.map((opt, idx) => {
                             // If this option is the solved number, we hide it from the list so it looks like it moved to the box
@@ -260,7 +260,7 @@ export const AdditionSubtractionModule: React.FC<AdditionSubtractionModuleProps>
                                     dragSnapToOrigin={true}
                                     onDragEnd={(e, info) => handleDragEnd(e, info, opt)}
                                     whileDrag={{ scale: 1.2, zIndex: 50 }}
-                                    className="bg-white border-2 border-b-4 border-blue-200 hover:border-blue-400 hover:bg-blue-50 text-blue-600 text-3xl md:text-4xl font-bold py-4 md:py-6 rounded-xl shadow-sm hover:shadow-md flex items-center justify-center touch-none select-none"
+                                    className="bg-white border-2 border-b-4 border-blue-200 hover:border-blue-400 hover:bg-blue-50 text-blue-600 text-2xl md:text-4xl font-bold py-2 md:py-6 rounded-xl shadow-sm hover:shadow-md flex items-center justify-center touch-none select-none active:scale-110"
                                     onClick={() => handleAnswer(opt)} // Keep click for accessibility
                                 >
                                     {opt}
@@ -269,7 +269,7 @@ export const AdditionSubtractionModule: React.FC<AdditionSubtractionModuleProps>
                         })}
                         </AnimatePresence>
                     </div>
-                     <div className="mt-8 text-gray-400 font-medium italic text-sm">
+                     <div className="mt-8 text-gray-400 font-medium italic text-sm text-center">
                         Drag the number to the question mark!
                     </div>
                 </div>
